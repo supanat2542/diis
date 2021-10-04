@@ -96,7 +96,12 @@
         </q-card-section>
 
         <q-card-actions align="right">
-         <!-- <q-btn flat label="edit" color="primary" v-close-popup />-->
+         <!-- <q-btn flat label="edit" color="primary" /> -->
+              <q-list>
+                <q-item :to="'/register/' + id" clickable class="text-center">
+                  <q-item-section>edit</q-item-section>
+                </q-item>
+              </q-list>
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
