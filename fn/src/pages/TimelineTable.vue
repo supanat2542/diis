@@ -6,7 +6,7 @@
     ></section-header>
     <q-tabs v-model="tab" class="q-mb-lg">
       <q-tab class="text-purple" name="Dairy" label="Dairy" />
-      <q-tab class="text-orange" name="Monthly" label="Monthly" />
+      <q-tab class="text-orange" name="Weekly" label="Weekly" /> <!--แก้เป็นWeekly -->
       <q-tab class="text-teal" name="Select Date" label="Select Date" />
     </q-tabs>
 
@@ -56,10 +56,11 @@
         </div>
       </q-tab-panel>
       <!-- =========================================== Print Mounthly =========================================================== -->
-      <q-tab-panel name="Monthly">
+     <!-- แก้รูปแบบประโยคจาก mounthly เป็น Weekly -->
+      <q-tab-panel name="Weekly">
         <div class="q-pa-md">
           <q-table
-            :title="`Timeline Monthly - ` + this.month"
+            :title="`Timeline Weekly - ` + this.month"
             :data="list_month"
             :columns="columns"
             row-key="name"
