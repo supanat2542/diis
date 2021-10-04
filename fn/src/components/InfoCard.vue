@@ -9,12 +9,13 @@
          <div class="text-subtitle3">Type : {{category}}</div>
         <div class="text-subtitle3">Contact person : {{contract}}</div>
       </q-card-section>
+      
       </q-card>
 </template>
 
 <script>
 export default {
-    props: ['fname','lname','tel','category','id_civiliz','contract'],
+    props: ['fname','lname','tel','category','id_civiliz','contract','timeout'],
 }
 </script>
 

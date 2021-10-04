@@ -11,8 +11,16 @@
         </div>
         <div class="col">
           <div class="text-h6">Guest #{{ id }}</div>
-          <div class="text-subtitle2">
-            <q-badge color="green-8" :label="location" />
+          <div class="text-subtitle2 q-gutter-xs ">
+            <q-badge color="green-8" class="justify-center" :label="location" />
+            <q-badge v-if="this.showing==true" color="yellow-8" text-color="black" class="justify-center">
+            <q-icon
+              name="warning"
+              size="14px"
+              class="q-ml-xs"
+            />
+             {{time_out}}
+          </q-badge>
           </div>
         </div>
 
@@ -121,6 +129,7 @@ export default {
     "tel",
     "category",
     "location",
+    "timestamp",
     "visitor_id",
     "tag_address",
     "time_start",
@@ -130,9 +139,33 @@ export default {
     return {
       alert: false,
       confirm: false,
+      showing: false,
+      time_out:""
     };
   },
-
+  mounted() {
+    console.warn(this.timestamp+" == "+moment().format())
+    var now = moment().format()
+    var last = this.timestamp
+    var now_time = moment(now)
+    var last_time = moment(last)
+    var time_out =now_time.diff(last_time, 'hours')
+    console.warn("Time Out : "+time_out)
+    if(time_out==0){
+      this.time_out=""
+      this.showing=false
+    }else if(time_out==1){
+      this.time_out="1 hr"
+      this.showing=true
+    }else if(time_out==2){
+      this.time_out="2 hr"
+      this.showing=true
+    }else if(time_out>=3){
+      this.time_out="more 3 hr"
+      this.showing=true
+    }
+    console.warn(this.showing)
+  },
   methods: {
     async resetTag() {
       const url = "http://localhost:3030/api/" 

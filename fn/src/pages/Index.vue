@@ -16,6 +16,7 @@
             :contract="item.contract"
             :category="item.category"
             :location="item.location"
+            :timestamp="item.timestamp"
             :visitor_id="item.visitor_id"
             :tag_address="item.tag_address"
             :time_start="item.time_start"
@@ -70,7 +71,8 @@ export default {
     this.list5 = resp5.data.result.rows;
     console.warn("list5 tags");
     console.warn(this.list5);
-
+    console.warn(this.list[0].time_start)
+    console.warn(moment(this.list[0].time_start).format(" hh:mm A"))
     for (var i = 0; i < this.list5.length; i++) {
       // console.warn(this.list5[i].tag_address);
       for (var j = 0; j < this.list.length; j++) {
@@ -89,6 +91,7 @@ export default {
                 contract: this.list[j].contract,
                 category: this.list[j].category,
                 location: this.list4[k].room,
+                timestamp:moment(this.list4[k].scan_timestamp).format(),
                 tag_address: this.list5[i].tag_address,
                 time_start: moment(this.list[j].time_start).format(" hh:mm A"),
                 id_civiliz: this.list[j].id_civiliz,
@@ -113,5 +116,10 @@ export default {
     }
     console.warn(this.dashbord);
   },
+  // methods: {
+  //     click() {
+  //        expansion-item.hide
+  //     }
+  //   }
 };
 </script>
