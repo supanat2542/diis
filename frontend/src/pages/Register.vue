@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    <!-------------------------- From Register ----------------------------------->
+    <!-------------------------- From Register ---------------------------------------- -->
     <section-header
       title="Register"
       subTitle="การลงทะเบียน Tag"
@@ -86,7 +86,7 @@
                 </div>
               </div>
               <div class="row" id_civiliz="top">
-                <div class="col-2">id_civiliz civilizecation</div>
+                <div class="col-2">id card number</div>
                 <div class="col-8">
                   <q-input
                     type="text"
@@ -138,7 +138,7 @@
               </div>
               <div class="row justify-end" id_civiliz="topper">
                 <div class="col-3">
-                  <!-------------------------- Button Add Data ----------------------------------->
+                  <!-------------------------- Button Add Data ---------------------------------------- -->
                   <q-btn
                     icon="check"
                     color="primary-gradient"
@@ -193,19 +193,17 @@ export default {
     };
   },
   async mounted() {
-    //<------------------------- Connect Database ----------------------------------->
+    //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
     let resp = await axios.get(url+"visitors");
     this.count = resp.data.result.rows.length;
     this.list = resp.data.result.rows;
     console.warn(this.list);
-    console.warn(this.list[this.count - 1].visitor_id + 1);
+    // console.warn("id last "+this.list[this.count - 1].visitor_id + 1);
     this.posts.visitor_id = this.list[this.count - 1].visitor_id + 1;
-
     let resp2 = await axios.get(url+"tags");
     this.list2 = resp2.data.result.rows;
     console.warn(this.list2);
-
     for (var i = 0; i < this.list2.length; i++) {
       if (this.list2[i].tag_id == this.id) {
         this.taguse_address = this.list2[i].tag_address;
@@ -216,7 +214,7 @@ export default {
     console.warn("tag id : "+this.taguse_address);
   },
   methods: {
-    //<------------------------- Fuction Add Data ----------------------------------->
+    //<------------------------- Fuction Add Data ------------------------------------------ -->
     async onSubmit() {
       // console.warn(" 1 : "+this.posts.first_name + " 2 : "+this.posts.last_name + " 3 : "+this.posts.tel + " 4 : "+this.posts.category +" 5 : "+ this.posts.id_civiliz  +" 6 : "+ this.posts.Person + " 7 : "+ this.posts.tel.length)
       if (
@@ -244,7 +242,6 @@ export default {
           },
         ]);
         console.warn(result);
-
         let result2 = await axios.post(url+"scanlog", [
           {
             device_address: this.taguse_address,

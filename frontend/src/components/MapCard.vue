@@ -8,10 +8,20 @@
           <q-icon name="fas fa-user-tag" color="orange-8" />
         </q-avatar>
       </div>    
-        </div>  
+        </div> 
         <div class="col">
           <div class="text-h6">Guest #{{ id }}</div>
-          <div class="text-subtitle2"><q-badge color="green-8" :label="room" /></div>
+          <div class="text-subtitle2 q-gutter-xs ">
+            <q-badge color="green-8" class="justify-center" :label="room" />
+            <q-badge v-if="this.timeout!=0" color="yellow-8" text-color="black" class="justify-center">
+            <q-icon
+              name="warning"
+              size="14px"
+              class="q-ml-xs"
+            />
+             {{this.timeout}}
+          </q-badge>
+          </div>
         </div>
 
         <div class="col-auto">
@@ -64,9 +74,10 @@
 
 <script>
 export default {
-  props: ['id_visitor','id','fname','lname','tel','category','room','contract'],
+  props: ['id_visitor','id','fname','lname','tel','category','room','contract','timeout'],
+  
 };
-
+  
 </script>
 
 <style>

@@ -41,10 +41,17 @@
               
                 </div>
               </div>
-       
+             
+
         <!--------------------------- Timeline User ------------------------------------>
         <q-timeline color="secondary" style="padding-left: 4rem " >
-          <q-timeline-entry heading> Timeline </q-timeline-entry>
+          <q-timeline-entry heading> Timeline 
+            <div v-if="this.showing==true"class="text-subtitle1 text-yellow-9 row">
+               <q-icon name="warning" size="30px"/>
+               <p> Time out {{time_out}} </p>
+            </div>
+          </q-timeline-entry>
+                
 
           <q-timeline-entry
             v-for="time in timeline"
@@ -73,7 +80,6 @@ export default {
     SectionHeader,
     InfoCard,
   },
-
   data() {
     return {
       id: this.$route.params.id,
@@ -82,6 +88,8 @@ export default {
       list: undefined,
       list2: undefined,
       tag: undefined,
+      showing: false,
+      time_out:""
     };
   },
   async mounted() {
@@ -95,7 +103,6 @@ export default {
     this.list = resp1.data.result.rows;
     console.warn("list item visitors");
     console.warn(this.list);
-
     for (var j = 0; j < this.list.length; j++) {
       if (this.id == this.list[j].visitor_id) {
         break;
@@ -116,7 +123,6 @@ export default {
     this.list2 = resp2.data.result.rows;
     console.warn("list2 scanerlog");
     console.warn(this.list2);
-
     //<------------------------- Create Timeline ----------------------------------->
     var rooms = this.list2[0].room;
     var times = moment(this.list2[0].scan_timestamp).format("hh:mm A")
@@ -141,14 +147,17 @@ export default {
         this.time.push(moment(this.list2[i].scan_timestamp).format("hh:mm A"));
       }
     }
-
     this.time.push(this.list2[this.list2.length - 1].room);
     this.time.push(
       moment(this.list2[this.list2.length - 1].scan_timestamp).format(
         "YYYY-MM-DD"
       )
     );
-
+    
+    this.timeline.push(this.time);
+    console.warn(this.timeline);
+    // console.warn(10**(((-69)-(-85))/(10 * 2)))
+    
     // for (var i = 0; i < this.list2.length; i++) {
       // console.warn(this.list2[i].room +" ==== "+rooms+" ---> "+i)
       // console.warn(moment(this.list2[i].scan_timestamp).format("hh:mm A") +" ==== "+ this.time[this.time.length-1]+" : "+i)
@@ -188,17 +197,31 @@ export default {
       // }
       
     // }
-
-    this.time.push(this.list2[this.list2.length - 1].room);
-    this.time.push(
-      moment(this.list2[this.list2.length - 1].scan_timestamp).format(
-        "YYYY-MM-DD"
-      )
-    );
-    
-    this.timeline.push(this.time);
-    console.warn(this.timeline);
-    // console.warn(10**(((-69)-(-85))/(10 * 2)))
+     console.warn(this.list2[0].scan_timestamp+" == "+moment().format())
+    var now = moment().format()
+    var last = this.list2[0].scan_timestamp
+    var now_time = moment(now)
+    var last_time = moment(last)
+    var time_out =now_time.diff(last_time, 'hours')
+    console.warn("Time Out : "+time_out)
+    if(this.timeline[0][0]!="In Use Now."){
+      this.showing=false
+    }else{
+      if(time_out==0){
+      this.time_out=""
+      this.showing=false
+    }else if(time_out==1){
+      this.time_out="1 hr"
+      this.showing=true
+    }else if(time_out==2){
+      this.time_out="2 hr"
+      this.showing=true
+    }else if(time_out>=3){
+      this.time_out="more 3 hr"
+      this.showing=true
+    }
+    }
+    console.warn(this.showing)
   },
 };
 </script>

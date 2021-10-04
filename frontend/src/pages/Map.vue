@@ -14,7 +14,7 @@
     <div class="container">
       <q-img class="profile-image" src="~assets/map_1.jpg" native-context-menu>
       </q-img>
-      <!--------------------------- Location Hall ----------------------------------->
+      <!--------------------------- Location Hall --------------------------------- -->
       <div class="hall-1 row q-gutter-y-lg ">
         <template v-for="item in dashbord">
           <icon-map
@@ -29,10 +29,11 @@
             :category="item.category"
             :room="item.location"
             :contract="item.contract"
+            :timestamp="item.timestamp"
           ></icon-map>
         </template>
       </div>
-      <!--------------------------- Location Room 103 ----------------------------------->
+      <!--------------------------- Location Room 103 --------------------------------- -->
       <div class="room-103 q-gutter-y-xl q-gutter-x-sm">
           <div v-for="item in dashbord" :key="item.id">
               <icon-map
@@ -46,10 +47,11 @@
                 :category="item.category"
                 :room="item.location"
                 :contract="item.contract"
+                :timestamp="item.timestamp"
               ></icon-map>
           </div>
       </div>
-      <!--------------------------- Location Room 105 ----------------------------------->
+      <!--------------------------- Location Room 105 --------------------------------- -->
       <div class="room-105 q-gutter-y-xl q-gutter-x-sm">
           <div v-for="item in dashbord" :key="item.id ">
               <icon-map
@@ -63,10 +65,11 @@
                 :category="item.category"
                 :room="item.location"
                 :contract="item.contract"
+                :timestamp="item.timestamp"
               ></icon-map>
           </div>
       </div>
-      <!--------------------------- Location Room 107 ----------------------------------->
+      <!--------------------------- Location Room 107 --------------------------------- -->
       <div class="room-107 row q-gutter-y-xl ">
         <template v-for="item in dashbord">
           <div v-if="item.location == 107" :key="item.id" class="col-4">
@@ -79,11 +82,12 @@
               :category="item.category"
               :room="item.location"
               :contract="item.contract"
+              :timestamp="item.timestamp"
             ></icon-map>
           </div>
         </template>
       </div>
-      <!--------------------------- Location Room 102 ----------------------------------->
+      <!--------------------------- Location Room 102 --------------------------------- -->
       <div class="room-102 row q-gutter-y-md">
         <template v-for="item in dashbord">
           <icon-map
@@ -98,6 +102,7 @@
             :category="item.category"
             :room="item.location"
             :contract="item.contract"
+            :timestamp="item.timestamp"
           ></icon-map>
         </template>
       </div>
@@ -108,7 +113,7 @@
 <script>
 import IconMap from "src/components/IconMap.vue";
 import SectionHeader from "../components/SectionHeader.vue";
-
+const moment = require("moment");
 import { axios } from "boot/axios";
 export default {
   components: {
@@ -130,7 +135,6 @@ export default {
     this.list = resp.data.result.rows;
     console.warn("list item visitors");
     console.warn(this.list);
-
     let resp2 = await axios.get(url+"scanlog");
     this.list2 = resp2.data.result.rows;
     console.warn("list2 scanerlog");
@@ -149,6 +153,7 @@ export default {
               category: this.list[i].category,
               location: this.list2[j].room,
               visitor_id: this.list[i].visitor_id,
+              timestamp:moment(this.list2[j].scan_timestamp).format(),
             };
             this.dashbord.push(newItem);
             break;
