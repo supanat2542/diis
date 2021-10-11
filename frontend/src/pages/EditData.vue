@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    <!-------------------------- From Register ---------------------------------------- -->
+    <!-------------------------- From Edit Data ---------------------------------------- -->
     <section-header
       title="Edit Data"
       subTitle="แก้ไขข้อมูล"
