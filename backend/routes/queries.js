@@ -64,6 +64,30 @@ const getScanner = async(req, res) => {
     res.json(output);
 }
 
+/********************************* GET Edit **********************************/
+
+const getEdit = async(req, res) => {
+    try {
+        console.log(req.query)
+        let tag_address = "NULL";
+                tag_address = req.query.tag_address;
+        const result = await pool.query(`SELECT visitor_id, first_name, last_name, tel, category, id_civiliz, contract, time_start, time_stop, tag_address
+        FROM diis.visitor
+        where tag_address = '${tag_address}' and time_stop is null ;
+        `);
+        output = {
+            status: "success",
+            result: result
+        }
+    } catch (error) {
+        output = {
+            status: "failed",
+            result: error
+        }
+    }
+    res.json(output);
+}
+
 /********************************* GET TABLE LOCATION *********************************/
 
 const getLocation = async(req, res) => {
@@ -507,8 +531,18 @@ const updateScanner = async(req, res) => {
 
 const updateVisitor = async(req, res) => {
     try {
-
-        const result = await pool.query(`UPDATE diis.visitor SET time_stop='${req.body.time_stop}'  where visitor_id = ${req.params.id}`);
+        console.log(req.body)
+        let first_name = "NULL";
+        let last_name = "NULL";
+        let tel = "NULL";
+        let category = "NULL";
+        let id_civiliz = "NULL";
+        let contract = "NULL";
+        console.log(req.params.id)
+        const result = await pool.query(`UPDATE diis.visitor
+        SET  first_name='${req.body.first_name}', last_name='${req.body.last_name}', tel='${req.body.tel}', category='${req.body.category}', id_civiliz='${req.body.id_civiliz}', contract='${req.body.contract}'
+        where visitor_id = ${req.params.id} ;
+        `);
         output = {
             status: "success",
             result: result
@@ -726,5 +760,6 @@ module.exports = {
     deleteScanlog,
     getData,
     getData2,
-    getSelectlog
+    getSelectlog,
+    getEdit
 }

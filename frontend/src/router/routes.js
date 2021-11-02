@@ -34,6 +34,21 @@ const routes = [
       { path: '', component: () => import('pages/Register.vue') }
     ]
   },
+  // {
+  //   path: '/editdata/:id',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { name: '',
+  //       path: '', component: () => import('pages/EditData.vue') }
+  //   ]
+  // },
+  {
+    path: '/editdata/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditData.vue') }
+    ]
+  },
   {
     path: '/test',
     component: () => import('layouts/MainLayout.vue'),

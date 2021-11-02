@@ -7,7 +7,8 @@ const db = require('./queries');
 router.get('/tags', db.getTag);
 router.post('/tags', db.createTag);
 router.put('/tags/:id', db.updateTag);
-router.delete('/tags/:id', db.deleteTag);
+router.delete('/tags/:id', db.deleteTag)
+router.get('/editdata',db.getEdit);
 
 router.get('/taguse', db.getTaguse);
 router.post('/taguse', db.createTaguse);

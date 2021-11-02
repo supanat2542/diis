@@ -97,11 +97,14 @@
 
         <q-card-actions align="right">
          <!-- <q-btn flat label="edit" color="primary" /> -->
-              <q-list>
-                <q-item :to="'/editdata/' + id" clickable class="text-center">
-                  <q-item-section>edit</q-item-section>
+              <!-- <q-list>
+                <q-item  class="text-center" >
+                  <q-item-section @click="check">edit</q-item-section>
                 </q-item>
-              </q-list>
+              </q-list> -->
+              <q-item :to="'/editdata/' + id" clickable class="text-center">
+                  <q-item-section>Edit</q-item-section>
+                </q-item>
 
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
@@ -129,6 +132,7 @@
 </template>
 
 <script>
+
 import { axios } from "boot/axios";
 const moment = require("moment");
 export default {
@@ -152,6 +156,7 @@ export default {
       confirm: false,
       showing: false,
       time_out: "",
+      // id:[],
     };
   },
   mounted() {
@@ -194,6 +199,12 @@ export default {
       console.warn(result2);
       location.reload();
     },
+    // check(){
+    //    this.$router.push('editdata/'+this.id);
+        
+    //   console.log(this.id);
+      
+    // }
   },
 };
 </script>

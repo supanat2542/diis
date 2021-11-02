@@ -1,16 +1,15 @@
 <template>
   <q-page class="q-pa-sm">
-    <!-------------------------- From Edit Data ---------------------------------------- -->
+    <!-------------------------- From Register ---------------------------------------- -->
     <section-header
       title="Edit Data"
-      subTitle="แก้ไขข้อมูล"
+      subTitle="แก้ไขข้อมูล Tag"
     ></section-header>
     <div class="row q-gutter-col-md justify-center">
-      <div class="col-9">
-        <q-card
-          class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm"
-        >
-          <q-card-section class="text-primary">
+      <div  class="col-9" >
+        <q-card class="my-card bg-indigo-1 rounded-borders-20 shadow-20 q-ma-sm ">
+          <q-card-section class="text-primary" 
+          >
             <div class="row items-center no-wrap">
               <div class="col-3">
                 <div class="text-center">
@@ -22,19 +21,20 @@
               <div class="col-7">
                 <div class="text-h3">Tag {{ id }}</div>
                 <div class="text-subtitle2">
-                  <q-badge color="red-8" label="Disconnected" />
+                  <q-badge color="green-8" label="Connected" />
                 </div>
               </div>
             </div>
-          </q-card-section>
+          </q-card-section >
           <q-card-section style="margin: 30px">
             <!-- -------------- form ----------------------------- -->
             <form
+              
               @submit.prevent.stop="onSubmit"
               @reset.prevent.stop="onReset"
               method="post"
             >
-              <div class="row">
+              <div class="row" >
                 <div class="col-2">Name</div>
                 <div class="col-4">
                   <q-input
@@ -160,58 +160,77 @@
         </q-card>
       </div>
     </div>
+    
   </q-page>
 </template>
 
 <script>
 import SectionHeader from "../components/SectionHeader.vue";
-import DeviceCard from "../components/DeviceCard.vue";
-import AddCard from "../components/AddCard.vue";
+// import DeviceCard from "../components/DeviceCard.vue";
 import { axios } from "boot/axios";
+import { ref } from 'vue'
 export default {
-  name: "PageIndex",
   components: {
     SectionHeader,
-    DeviceCard,
-    AddCard,
+    // DeviceCard,
   },
   data() {
     return {
       posts: {
-        first_name: "",
-        last_name: "",
-        tel: "",
-        category: "",
-        id_civiliz: "",
+        first_name : '',
+        last_name: [],
+        tel:[],
+        category: [],
+        id_civiliz: [],
         Location: null,
-        Person: "",
+        Person: [],
         taguse_address: "",
         visitor_id: "",
       },
       id: this.$route.params.id,
+      fname: this.$route.params.fname,
       list: undefined,
     };
+    //  return {
+    //   dashbord: [],
+    // };
   },
   async mounted() {
     //<------------------------- Connect Database ------------------------------------- -->
     const url = "http://localhost:3030/api/" 
+    let resp2 = await axios.get(url+"tags");
+    this.list2 = resp2.data.result.rows;
+    console.warn(this.list2);
+    console.warn(this.list2[this.id-1].tag_address)
+    let respx = await axios.get(url+"editdata",{
+      params: {
+            tag_address: this.list2[this.id-1].tag_address,
+          },
+    });
+    this.listx = respx.data.result.rows;
+    console.warn(this.listx);
+    console.warn(this.listx[0].first_name);
+
+    this.posts.first_name=this.listx[0].first_name;
+    this.posts.last_name=this.listx[0].last_name;
+    this.posts.tel=this.listx[0].tel;
+    this.posts.id_civiliz=this.listx[0].id_civiliz;
+    this.posts.Person=this.listx[0].contract;
+    this.posts.category=this.listx[0].category;
+
     let resp = await axios.get(url+"visitors");
     this.count = resp.data.result.rows.length;
     this.list = resp.data.result.rows;
     console.warn(this.list);
     // console.warn("id last "+this.list[this.count - 1].visitor_id + 1);
     this.posts.visitor_id = this.list[this.count - 1].visitor_id + 1;
-    let resp2 = await axios.get(url+"tags");
-    this.list2 = resp2.data.result.rows;
-    console.warn(this.list2);
-    for (var i = 0; i < this.list2.length; i++) {
-      if (this.list2[i].tag_id == this.id) {
-        this.taguse_address = this.list2[i].tag_address;
-        console.warn("id address : " + this.taguse_address);
-        break;
-      }
-    }
-    console.warn("tag id : "+this.taguse_address);
+    
+    let resp4 = await axios.get(url + "scanlog");
+    this.list4 = resp4.data.result.rows;
+    console.warn("list4 scanerlog");
+    console.warn(this.list4);
+      
+    
   },
   methods: {
     //<------------------------- Fuction Add Data ------------------------------------------ -->
@@ -230,25 +249,18 @@ export default {
         console.warn("connect");
         console.warn(this.posts);
         const url = "http://localhost:3030/api/" 
-        let result = await axios.post(url+"visitors", [
-          {
-            tag_address: this.taguse_address,
+        let result = await axios.put(url+"visitors/"+this.posts.visitor_id, {
+          
             first_name: this.posts.first_name,
             last_name: this.posts.last_name,
             tel: this.posts.tel,
             category: this.posts.category,
             id_civiliz: this.posts.id_civiliz,
             contract: this.posts.Person,
-          },
-        ]);
+            visitor_id:this.posts.visitor_id
+        });
+        console.warn("Test")
         console.warn(result);
-        let result2 = await axios.post(url+"scanlog", [
-          {
-            device_address: this.taguse_address,
-            scanner_id: "8e61a75d-12b7-4bda-8bc1-ed5983d33408-003",
-          },
-        ]);
-        console.warn(result2);
         this.$router.push("/index");
       } else {
         console.warn("Not connect");

@@ -46,7 +46,7 @@
         <!--------------------------- Timeline User ------------------------------------>
         <q-timeline color="secondary" style="padding-left: 4rem " >
           <q-timeline-entry heading> Timeline 
-            <div v-if="this.showing==true"class="text-subtitle1 text-yellow-9 row">
+            <div v-if="this.showing==true" class="text-subtitle1 text-yellow-9 row">
                <q-icon name="warning" size="30px"/>
                <p> Time out {{time_out}} </p>
             </div>
